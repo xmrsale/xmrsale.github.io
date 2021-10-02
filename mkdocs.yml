@@ -1,0 +1,14 @@
+site_name: xmrSale
+theme:
+  name: material
+  palette:
+    primary: deep orange
+    accent: grey
+  logo: assets/xmr-logo-outlined.png
+
+nav:
+  - 'index.md'
+  - 'install.md'
+  - 'woocommerce.md'
+  - 'HTTPS.md'
+  - 'tor.md'
