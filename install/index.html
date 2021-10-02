@@ -444,9 +444,11 @@ tail -f log.txt
 For testing:</p>
 <pre><code>git clone https://github.com/xmrsale/xmrSale
 cd xmrSale/
-docker-compose up --build
 </code></pre>
-<p>it will have to sync with the Monero blockchain which may take some time, unless you point the <code>docker-compose.yml</code> to an existing Monero directory.</p>
+<p>Edit <code>docker-compose.yml</code> with links to your Monero wallet file and blockchain directory (if applicable). Then</p>
+<pre><code>docker-compose up --build
+</code></pre>
+<p>it will have to sync with the Monero blockchain which may take some time.</p>
 <h2 id="embed-a-donation-button">Embed a Donation Button</h2>
 <p>Now we have xmrSale running, let's embed the donation button into a website HTML:</p>
 <pre><code class="language-html">&lt;iframe src=&quot;http://YOUR_SERVER_IP:8000/&quot; style=&quot;margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
