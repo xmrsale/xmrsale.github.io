@@ -49,14 +49,17 @@ tail -f log.txt
 ```
 
 ## Install (with Docker)
-A beta docker image is now working but has **not yet been security vetted** and is not ready for production use, it is packaged with a Monero node for an easy installation:
+A beta docker image is only semi working and has **not yet been security vetted** and is not ready for production use, it is packaged with a Monero node for an easy installation:
 For testing:
 ```
 git clone https://github.com/xmrsale/xmrSale
 cd xmrSale/
+```
+Edit `docker-compose.yml` with links to your Monero wallet file and blockchain directory (if applicable). Then
+```
 docker-compose up --build
 ```
-it will have to sync with the Monero blockchain which may take some time, unless you point the `docker-compose.yml` to an existing Monero directory.
+it will have to sync with the Monero blockchain which may take some time.
 
 ## Embed a Donation Button
 Now we have xmrSale running, let's embed the donation button into a website HTML:

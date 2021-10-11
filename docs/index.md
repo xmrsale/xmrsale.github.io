@@ -3,8 +3,10 @@
 
 Please support [via the Monero Community Crowdfunding System](https://repo.getmonero.org/monero-project/ccs-proposals/-/merge_requests/246).
 
-![demo](https://user-images.githubusercontent.com/87597480/129158548-0337a429-72a0-4116-af92-b90f96a52e6c.png)
+![demo](demo_pay3.png)
 ## [try.xmrsale.org](https://try.xmrsale.org)
+
+<iframe src="https://try.xmrsale.org" style="margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;" scrolling="no"></iframe>
 
 **xmrSale is currently under early development, always manually check significant payments**.
 
@@ -17,7 +19,7 @@ xmrSale makes donation buttons simple - easy copy paste the one line HTML iframe
 ## Features
 * Process payments with your own Monero node via RPC and SSH. Monero core, or any other node software that supports RPC calls.
 * Direct peer-to-peer payments without any middleman. No KYC, and greater privacy than donation systems where Monero addresses are reused multiple times.
-* Lightweight and highly extendable, basic html and css stying. Modular Python backend, take a [look at the code](xmrsale.py).
+* Lightweight and highly extendable, basic html and css stying. Modular Python backend, take a [look at the code](https://github.com/xmrsale/xmrSale/).
 * Natively extendable to all Monerod node features (e.g. segwit) through RPC.
 * QR codes, customizable required payment confirmations and payment expiry time.
 * Privacy ensured. Monero only.
