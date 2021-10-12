@@ -3,8 +3,10 @@
 
 Please support [via the Monero Community Crowdfunding System](https://repo.getmonero.org/monero-project/ccs-proposals/-/merge_requests/246).
 
-![demo](demo_pay3.png)
 ## [try.xmrsale.org](https://try.xmrsale.org)
+![demo](assets/demo_pay3.png)
+Or check out our Monero webstore demo: [store.xmrsale.org](https://store.xmrsale.org)
+
 
 <iframe src="https://try.xmrsale.org" style="margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;" scrolling="no"></iframe>
 
