@@ -6,6 +6,7 @@ theme:
     primary: deep orange
     accent: grey
   logo: assets/xmr-logo-outlined.png
+  favicon: assets/favicon.ico
 
 nav:
   - 'index.md'
