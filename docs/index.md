@@ -6,6 +6,7 @@ Please support [via the Monero Community Crowdfunding System](https://repo.getmo
 ![demo](demo_pay3.png)
 ## [try.xmrsale.org](https://try.xmrsale.org)
 
+<iframe src="https://try.xmrsale.org" style="margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;" scrolling="no"></iframe>
 
 **xmrSale is currently under early development, always manually check significant payments**.
 
