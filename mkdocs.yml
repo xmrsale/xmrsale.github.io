@@ -1,4 +1,5 @@
 site_name: xmrSale
+site_url: https://xmrsale.org/
 theme:
   name: material
   palette:
