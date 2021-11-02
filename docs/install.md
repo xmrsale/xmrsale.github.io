@@ -22,31 +22,38 @@ You can find these monerod rpc details in `monero.conf` or in daemon arguments w
 
 To be able to connect to your node with full ability to create addresses, we need to have a `monero wallet RPC` service running alongside our monerod RPC. Note most node guides do not install this by default, including sethforprivacy's.
 
-To run `monero-wallet-rpc` with arguments, it is probably easiest to run this as a service like you may have done for your monerod daemon. We  will just create a similar `.service`, here is an example [monerowallet.service](https://github.com/xmrsale/xmrSale/blob/master/docs/monerowallet.service). You can set the wallet RPC login as arguments in this file.
+An example command for `monero-wallet-rpc` is:
+```
+monero-wallet-rpc --rpc-bind-ip 0.0.0.0 --rpc-bind-port 18090 --confirm-external-bind --rpc-login monerorpc:RPCPASSWORD --daemon-login monerorpc:RPCPASSWORD --daemon-port 18081 --wallet-file /etc/monero/WALLETKEYS.keys --password "WALLETPASSWORD" --pidfile /var/run/monero/monerowallet.pid  --log-file /var/log/monero/monero-rpc.log --detach
+```
+However it is probably easiest to run this as a service like you may have done for your monerod daemon. We  will just create a similar `.service`, here is an example [monerowallet.service](https://github.com/xmrsale/xmrSale/blob/master/docs/monerowallet.service). You can set the wallet RPC login as arguments in this file.
 
-Connecting to a remote node is easy and can be done over SSH tunneling or tor hidden services (tor not yet working), you can do this manually with
+If you are connecting to a remote node, this is easy via SSH tunneling or tor hidden services (see Tor page), you can open these tunnels with
 ```
 ssh root@IP -q -N -L 18081:localhost:18081 &
 ssh root@IP -q -N -L 18090:localhost:18090 &
 ```
-or whatever ports you're using. Make sure your ssh connection is working (without prompts!). Further config examples can be found in [docs/](docs/).
+or whatever ports you're using. Make sure your ssh connection is working (without any ssh-key prompts! No passwords!). Further config examples can be found in [docs/](docs/).
 
 ### Run xmrSale
-Run xmrSale with
+Finally, run xmrSale with
 ```
 gunicorn -w 1 -b 0.0.0.0:8000 xmrsale:app
 ```
 Gunicorn is a lightweight python HTTP server, alternatively you can run with just `python xmrsale.py` though this is not recommended for production.
 
-That's it! You should now be able to view your xmrSale server at `http://YOUR_SERVER_IP:8000/`. If running locally, this will be `127.0.0.1:8000`.
+You should now be able to view your xmrSale server at `http://YOUR_SERVER_IP:8000/`. If running locally, this will be `127.0.0.1:8000`.
 
-If running on a Raspberry Pi, you will want to [forward port 8000 in your router settings](https://user-images.githubusercontent.com/24557779/105681219-f0f5fd80-5f44-11eb-942d-b574367a161f.png) so that xmrSale is also visible at your external IP address. You might have to allow gunicorn through your firewall with `sudo ufw allow 8000`.
 
-You will want to run gunicorn with nohup so it continues serving in the background:
+To serve constantly in the background, run gunicorn with nohup:
 ```
 nohup gunicorn -w 1 0.0.0.0:8000 xmrsale:app > log.txt 2>&1 &
 tail -f log.txt
 ```
+You can then kill xmrsale with `pkill gunicorn`.
+
+If running on a machine at home, you may want to [forward port 8000 in your router settings](https://user-images.githubusercontent.com/24557779/105681219-f0f5fd80-5f44-11eb-942d-b574367a161f.png) so that xmrSale is also visible to the public on your external IP address. You may also need to allow gunicorn through your firewall with `sudo ufw allow 8000`.
+
 
 ## Install (with Docker)
 A beta docker image is only semi working and has **not yet been security vetted** and is not ready for production use, it is packaged with a Monero node for an easy installation:
