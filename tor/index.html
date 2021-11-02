@@ -245,7 +245,7 @@
   
     <li class="md-nav__item">
       <a href="../HTTPS/" class="md-nav__link">
-        HTTPS
+        Domains and HTTPS with NGINX & certbot
       </a>
     </li>
   
@@ -367,8 +367,8 @@
                 
                 <h1 id="xmrsale-over-tor">xmrSale over tor</h1>
 <p>Currently you can use Tor in two ways
-1) Connect xmrSale to your Monero node over a tor hidden service
-2) Host xmrSale as a Tor onion</p>
+1) Connect xmrSale to your Monero node over a tor hidden service (if you're connecting to a remote node, may be preferable to SSH tunneling).
+2) Host xmrSale as a Tor onion site</p>
 <h2 id="monero-node-rpc-hidden-service">Monero Node RPC Hidden Service</h2>
 <p>On your Monero node install tor and in <code>/etc/tor/torrc</code>:</p>
 <pre><code>HiddenServiceDir /var/lib/tor/node_rpc/
@@ -387,10 +387,10 @@ cat /var/lib/tor/node_rpc/hostname
 SocksPolicy accept 127.0.0.1
 SocksPolicy reject *
 </code></pre>
-<p>Now start the tor proxy on your xmrSale machine with <code>sudo tor</code> and xmrSale is now configured to connect to your node over tor.</p>
+<p>Now start the tor proxy on your xmrSale machine with <code>sudo tor</code> and xmrSale is now configured to connect to your node at localhost over tor.</p>
 <h2 id="xmrsale-tor-onion">xmrSale Tor .Onion</h2>
-<p>Monero payment gateway accessible over tor.
-On your xmrSale machine, install tor and in <code>/etc/tor/torrc</code>:</p>
+<p>It's possible to run xmrSale on an onion site. However, currently this will only work in some Tor browsers, and likely not in the official Tor Browser unless you fully enable javascript which is a bad idea. This is something we would like to change in the future.</p>
+<p>On your xmrSale machine, install tor and in <code>/etc/tor/torrc</code>:</p>
 <pre><code>HiddenServiceDir /var/lib/tor/xmrsale/
 HiddenServiceVersion 3
 HiddenServicePort 80 127.0.0.1:8000
@@ -400,7 +400,6 @@ HiddenServicePort 80 127.0.0.1:8000
 cat /var/lib/tor/xmrsale/hostname
 </code></pre>
 <p>to get your onion URL. Go visit!</p>
-<p>Note that this will only work in some Tor browsers, and often not in the official Tor Browser unless you fully enable javascript etc.</p>
                 
               
               
@@ -420,7 +419,7 @@ cat /var/lib/tor/xmrsale/hostname
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../HTTPS/" class="md-footer__link md-footer__link--prev" aria-label="Previous: HTTPS" rel="prev">
+        <a href="../HTTPS/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Domains and HTTPS with NGINX &amp; certbot" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -429,7 +428,7 @@ cat /var/lib/tor/xmrsale/hostname
               <span class="md-footer__direction">
                 Previous
               </span>
-              HTTPS
+              Domains and HTTPS with NGINX & certbot
             </div>
           </div>
         </a>

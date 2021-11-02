@@ -16,7 +16,7 @@
     
     
       
-        <title>HTTPS - xmrSale</title>
+        <title>Domains and HTTPS with NGINX & certbot - xmrSale</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#using-a-subdomain-with-nginx-certbot-https" class="md-skip">
+        <a href="#domains-and-https-with-nginx-certbot" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              HTTPS
+              Domains and HTTPS with NGINX & certbot
             
           </span>
         </div>
@@ -250,38 +250,12 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          HTTPS
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        HTTPS
+        Domains and HTTPS with NGINX & certbot
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#using-a-subdomain-with-nginx-certbot-https" class="md-nav__link">
-    Using a Subdomain with nginx &amp; certbot (HTTPS)
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -318,21 +292,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#using-a-subdomain-with-nginx-certbot-https" class="md-nav__link">
-    Using a Subdomain with nginx &amp; certbot (HTTPS)
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -345,10 +306,8 @@
               
                 
                 
-                  <h1>HTTPS</h1>
-                
-                <h2 id="using-a-subdomain-with-nginx-certbot-https">Using a Subdomain with nginx &amp; certbot (HTTPS)</h2>
-<p>Embedded iframes are easy if your site only uses HTTP. But if your site uses HTTPS, then you can likely see your donation button at <code>http://YOUR_SERVER_IP:8000/</code> but not in the embeded iframe due to HTTPS security policies. It is best that we create a new subdomain like <code>xmrsale.yoursite.com</code> from which we can serve payments. If you use nginx, you can create a new file <code>/etc/nginx/sites-enabled/xmrsale</code>:</p>
+                <h1 id="domains-and-https-with-nginx-certbot">Domains and HTTPS with NGINX &amp; certbot</h1>
+<p>Embedded iframes are easy if your site only uses HTTP. But if your site uses HTTPS, then you can likely see your donation button at <code>http://YOUR_SERVER_IP:8000/</code> but not in the embeded iframe due to HTTPS security policies. It is best that we create a new subdomain like <code>xmrsale.yoursite.com</code> from which we can serve payments. Install NGINX, and create a new file <code>/etc/nginx/sites-enabled/xmrsale</code>:</p>
 <pre><code>server {
     listen 80;
     server_name xmrsale.YOURWEBSITE.com;
@@ -362,8 +321,9 @@
     }
 }
 </code></pre>
-<p>we can now point our domain <code>xmrsale.YOURWEBSITE.com</code> DNS to our server IP and create HTTPS certificates by runnining the <code>certbot</code> command (or whatever else you use).</p>
-<p>You could also try provide Gunicorn with your website's HTTPS certificate with the flags <code>--certfile=cert.pem --keyfile=key.key</code>. If you use certbot for SSL, your keys are probably in <code>/etc/letsencrypt/live/</code>.</p>
+<p>Check with <code>nginx -t</code> and then <code>systemctl restart nginx</code>.</p>
+<p>Now point your domain <code>xmrsale.YOURWEBSITE.com</code> DNS to your server IP. Then create HTTPS certificates by runnining the <code>certbot</code> command (or whatever else you use).</p>
+<p>You could also try provide Gunicorn with your website's HTTPS certificate directly by using the flags <code>--certfile=cert.pem --keyfile=key.key</code>. If you use certbot for SSL, your keys are probably in <code>/etc/letsencrypt/live/</code>.</p>
                 
               
               
