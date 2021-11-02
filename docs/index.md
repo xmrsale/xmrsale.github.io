@@ -12,8 +12,10 @@ Or check out our Monero webstore demo: [store.xmrsale.org](https://store.xmrsale
 
 **xmrSale is currently under early development, always manually check significant payments**.
 
-xmrSale is a self-hosted Monero payment processor, serving two primary use cases:
-1. Donation button for your website that you can easily embed/link to anywhere.
+xmrSale is a self-hosted Monero payment processor,
+
+1. Create a Monero donation page for your website that you can easily embed/link to anywhere.
+
 2. Monero payment gateway, including a Woocommerce plugin that easily turns ANY Wordpress site into a Monero accepting store.
 
 xmrSale makes donation buttons simple - easy copy paste the one line HTML iframe into your site. With a simple Python backend to talk to your own Monero node, xmrSale uses RPC to generate new addresses, and monitors the payment status with your own copy of the blockchain.
