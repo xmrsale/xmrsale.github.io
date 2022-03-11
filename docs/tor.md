@@ -1,3 +1,6 @@
+### Tor
+First ensure that you have installed `torsocks` (`sudo apt install tor`) and have `tor` running in the background. You can now enable `tor=True` in the config to connect to remote public nodes over tor.
+
 # xmrSale over tor
 Currently you can use Tor in two ways
 1) Connect xmrSale to your Monero node over a tor hidden service (if you're connecting to a remote node, may be preferable to SSH tunneling).
