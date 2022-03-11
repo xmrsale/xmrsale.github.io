@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://xmrsale.org/HTTPS/">
+        <link rel="canonical" href="https://xmrsale.org/version1_install/">
       
       <link rel="icon" href="../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.0">
     
     
       
-        <title>Domains and HTTPS with NGINX & certbot - xmrSale</title>
+        <title>Installation - xmrSale</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#domains-and-https-with-nginx-certbot" class="md-skip">
+        <a href="#installation" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Domains and HTTPS with NGINX & certbot
+              Installation
             
           </span>
         </div>
@@ -242,21 +242,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../HTTPS/" class="md-nav__link">
         Domains and HTTPS with NGINX & certbot
       </a>
-      
     </li>
   
 
@@ -295,6 +285,55 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-with-node" class="md-nav__link">
+    Install (with node)
+  </a>
+  
+    <nav class="md-nav" aria-label="Install (with node)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-your-monero-node" class="md-nav__link">
+    Connect to your Monero Node
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-xmrsale" class="md-nav__link">
+    Run xmrSale
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-with-docker" class="md-nav__link">
+    Install (with Docker)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embed-a-donation-button" class="md-nav__link">
+    Embed a Donation Button
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -306,24 +345,62 @@
               
                 
                 
-                <h1 id="domains-and-https-with-nginx-certbot">Domains and HTTPS with NGINX &amp; certbot</h1>
-<p>Embedded iframes are easy if your site only uses HTTP. But if your site uses HTTPS, then you can likely see your donation button at <code>http://YOUR_SERVER_IP:8000/</code> but not in the embeded iframe due to HTTPS security policies. It is best that we create a new subdomain like <code>xmrsale.yoursite.com</code> from which we can serve payments. Install NGINX, and create a new file <code>/etc/nginx/sites-enabled/xmrsale</code>:</p>
-<pre><code>server {
-    listen 80;
-    server_name xmrsale.YOURWEBSITE.com;
-
-    location / {
-        proxy_pass http://localhost:8000;
-    proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection &quot;upgrade&quot;;
-        proxy_set_header Host $host;
-    }
-}
+                <h1 id="installation">Installation</h1>
+<p>xmrSale needs a Monero node to check the Monero blockchain for payments. If you don't have a node, you can follow the Docker installation below which will install one for you. Or you can <a href="https://sethforprivacy.com/guides/run-a-monero-node-advanced/">install one</a> yourself. While you can run xmrSale on the same machine as your Monero node, a separate VPS for xmrSale is recommended.</p>
+<h2 id="install-with-node">Install (with node)</h2>
+<p>Clone and install dependencies</p>
+<pre><code>git clone https://github.com/xmrsale/xmrSale
+cd xmrSale/
+pip3 install -r requirements.txt
 </code></pre>
-<p>Check with <code>nginx -t</code> and then <code>systemctl restart nginx</code>.</p>
-<p>Now point your domain <code>xmrsale.YOURWEBSITE.com</code> DNS to your server IP. Then create HTTPS certificates by runnining the <code>certbot</code> command (or whatever else you use).</p>
-<p>You could also try provide Gunicorn with your website's HTTPS certificate directly by using the flags <code>--certfile=cert.pem --keyfile=key.key</code>. If you use certbot for SSL, your keys are probably in <code>/etc/letsencrypt/live/</code>.</p>
+<h3 id="connect-to-your-monero-node">Connect to your Monero Node</h3>
+<p>Edit the <code>config.py</code> configuration and point to your Monero node:</p>
+<pre><code class="language-python">host = &quot;127.0.0.1&quot;
+monerod_rpcport = &quot;18081&quot;
+monerowallet_rpcport = &quot;18090&quot;
+monerod_username = &quot;MONERODRPC_USER&quot;
+monerod_password = &quot;MONERODRPC_PASS&quot;
+wallet_username = &quot;WALLETRPC_USER&quot;
+wallet_password = &quot;WALLETRPC_PASS&quot;
+</code></pre>
+<p>You can find these monerod rpc details in <code>monero.conf</code> or in daemon arguments within your systemd <code>.service</code>.</p>
+<p>To be able to connect to your node with full ability to create addresses, we need to have a <code>monero wallet RPC</code> service running alongside our monerod RPC. Note most node guides do not install this by default, including sethforprivacy's.</p>
+<p>An example command for <code>monero-wallet-rpc</code> is:</p>
+<pre><code>monero-wallet-rpc --rpc-bind-ip 0.0.0.0 --rpc-bind-port 18090 --confirm-external-bind --rpc-login monerorpc:RPCPASSWORD --daemon-login monerorpc:RPCPASSWORD --daemon-port 18081 --wallet-file /etc/monero/WALLETKEYS.keys --password &quot;WALLETPASSWORD&quot; --pidfile /var/run/monero/monerowallet.pid  --log-file /var/log/monero/monero-rpc.log --detach
+</code></pre>
+<p>However it is probably easiest to run this as a service like you may have done for your monerod daemon. We  will just create a similar <code>.service</code>, here is an example <a href="https://github.com/xmrsale/xmrSale/blob/master/docs/monerowallet.service">monerowallet.service</a>. You can set the wallet RPC login as arguments in this file.</p>
+<p>If you are connecting to a remote node, this is easy via SSH tunneling or tor hidden services (see Tor page), you can open these tunnels with</p>
+<pre><code>ssh root@IP -q -N -L 18081:localhost:18081 &amp;
+ssh root@IP -q -N -L 18090:localhost:18090 &amp;
+</code></pre>
+<p>or whatever ports you're using. Make sure your ssh connection is working (without any ssh-key prompts! No passwords!). Further config examples can be found in <a href="docs/">docs/</a>.</p>
+<h3 id="run-xmrsale">Run xmrSale</h3>
+<p>Finally, run xmrSale with</p>
+<pre><code>gunicorn -w 1 -b 0.0.0.0:8000 xmrsale:app
+</code></pre>
+<p>Gunicorn is a lightweight python HTTP server, alternatively you can run with just <code>python xmrsale.py</code> though this is not recommended for production.</p>
+<p>You should now be able to view your xmrSale server at <code>http://YOUR_SERVER_IP:8000/</code>. If running locally, this will be <code>127.0.0.1:8000</code>.</p>
+<p>To serve constantly in the background, run gunicorn with nohup:</p>
+<pre><code>nohup gunicorn -w 1 0.0.0.0:8000 xmrsale:app &gt; log.txt 2&gt;&amp;1 &amp;
+tail -f log.txt
+</code></pre>
+<p>You can then kill xmrsale with <code>pkill gunicorn</code>.</p>
+<p>If running on a machine at home, you may want to <a href="https://user-images.githubusercontent.com/24557779/105681219-f0f5fd80-5f44-11eb-942d-b574367a161f.png">forward port 8000 in your router settings</a> so that xmrSale is also visible to the public on your external IP address. You may also need to allow gunicorn through your firewall with <code>sudo ufw allow 8000</code>.</p>
+<h2 id="install-with-docker">Install (with Docker)</h2>
+<p>A beta docker image is only semi working and has <strong>not yet been security vetted</strong> and is not ready for production use, it is packaged with a Monero node for an easy installation:
+For testing:</p>
+<pre><code>git clone https://github.com/xmrsale/xmrSale
+cd xmrSale/
+</code></pre>
+<p>Edit <code>docker-compose.yml</code> with links to your Monero wallet file and blockchain directory (if applicable). Then</p>
+<pre><code>docker-compose up --build
+</code></pre>
+<p>it will have to sync with the Monero blockchain which may take some time.</p>
+<h2 id="embed-a-donation-button">Embed a Donation Button</h2>
+<p>Now we have xmrSale running, let's embed the donation button into a website HTML:</p>
+<pre><code class="language-html">&lt;iframe src=&quot;http://YOUR_SERVER_IP:8000/&quot; style=&quot;margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
+</code></pre>
+<p>Change <code>YOUR_SERVER_IP</code> to the IP address of the machine you're running xmrSale on, node or otherwise. Additionally, you could redirect a domain to that IP and use that instead.</p>
                 
               
               
@@ -339,41 +416,6 @@
       
         
 <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../woocommerce/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Woocommerce Payment Gateway" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Woocommerce Payment Gateway
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../tor/" class="md-footer__link md-footer__link--next" aria-label="Next: Tor" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Tor
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

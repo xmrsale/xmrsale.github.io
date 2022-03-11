@@ -247,43 +247,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-with-node" class="md-nav__link">
-    Install (with node)
+  <a href="#xmrsale-setup" class="md-nav__link">
+    xmrSale Setup
   </a>
   
-    <nav class="md-nav" aria-label="Install (with node)">
+    <nav class="md-nav" aria-label="xmrSale Setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#connect-to-your-monero-node" class="md-nav__link">
-    Connect to your Monero Node
+  <a href="#start-xmrsale" class="md-nav__link">
+    Start xmrSale
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#run-xmrsale" class="md-nav__link">
-    Run xmrSale
+  <a href="#embed-a-donation-button" class="md-nav__link">
+    Embed a Donation Button
   </a>
   
 </li>
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-with-docker" class="md-nav__link">
-    Install (with Docker)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#embed-a-donation-button" class="md-nav__link">
-    Embed a Donation Button
-  </a>
   
 </li>
       
@@ -334,7 +320,7 @@
   
     <li class="md-nav__item">
       <a href="../tor/" class="md-nav__link">
-        xmrSale over tor
+        Tor
       </a>
     </li>
   
@@ -366,43 +352,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-with-node" class="md-nav__link">
-    Install (with node)
+  <a href="#xmrsale-setup" class="md-nav__link">
+    xmrSale Setup
   </a>
   
-    <nav class="md-nav" aria-label="Install (with node)">
+    <nav class="md-nav" aria-label="xmrSale Setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#connect-to-your-monero-node" class="md-nav__link">
-    Connect to your Monero Node
+  <a href="#start-xmrsale" class="md-nav__link">
+    Start xmrSale
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#run-xmrsale" class="md-nav__link">
-    Run xmrSale
+  <a href="#embed-a-donation-button" class="md-nav__link">
+    Embed a Donation Button
   </a>
   
 </li>
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-with-docker" class="md-nav__link">
-    Install (with Docker)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#embed-a-donation-button" class="md-nav__link">
-    Embed a Donation Button
-  </a>
   
 </li>
       
@@ -420,57 +392,31 @@
                 
                 
                 <h1 id="installation">Installation</h1>
-<p>xmrSale needs a Monero node to check the Monero blockchain for payments. If you don't have a node, you can follow the Docker installation below which will install one for you. Or you can <a href="https://sethforprivacy.com/guides/run-a-monero-node-advanced/">install one</a> yourself. While you can run xmrSale on the same machine as your Monero node, a separate VPS for xmrSale is recommended.</p>
-<h2 id="install-with-node">Install (with node)</h2>
-<p>Clone and install dependencies</p>
+<p>If you want to run on your own node or docker, please checkout this <a href="https://github.com/xmrsale/xmrSale/tree/original">original branch</a>.</p>
+<p>First, clone and install dependencies</p>
 <pre><code>git clone https://github.com/xmrsale/xmrSale
 cd xmrSale/
 pip3 install -r requirements.txt
 </code></pre>
-<h3 id="connect-to-your-monero-node">Connect to your Monero Node</h3>
-<p>Edit the <code>config.py</code> configuration and point to your Monero node:</p>
-<pre><code class="language-python">host = &quot;127.0.0.1&quot;
-monerod_rpcport = &quot;18081&quot;
-monerowallet_rpcport = &quot;18090&quot;
-monerod_username = &quot;MONERODRPC_USER&quot;
-monerod_password = &quot;MONERODRPC_PASS&quot;
-wallet_username = &quot;WALLETRPC_USER&quot;
-wallet_password = &quot;WALLETRPC_PASS&quot;
+<h2 id="xmrsale-setup">xmrSale Setup</h2>
+<p>Run</p>
+<pre><code>python3 xmrsale.py --setup
 </code></pre>
-<p>You can find these monerod rpc details in <code>monero.conf</code> or in daemon arguments within your systemd <code>.service</code>.</p>
-<p>To be able to connect to your node with full ability to create addresses, we need to have a <code>monero wallet RPC</code> service running alongside our monerod RPC. Note most node guides do not install this by default, including sethforprivacy's.</p>
-<p>An example command for <code>monero-wallet-rpc</code> is:</p>
-<pre><code>monero-wallet-rpc --rpc-bind-ip 0.0.0.0 --rpc-bind-port 18090 --confirm-external-bind --rpc-login monerorpc:RPCPASSWORD --daemon-login monerorpc:RPCPASSWORD --daemon-port 18081 --wallet-file /etc/monero/WALLETKEYS.keys --password &quot;WALLETPASSWORD&quot; --pidfile /var/run/monero/monerowallet.pid  --log-file /var/log/monero/monero-rpc.log --detach
+<p>This will download monero-cli tools from <code>downloads.getmonero.org</code> which are used to manage payments.
+Enter a new password for your new <code>xmrsale_wallet</code> (and <code>.keys</code>).
+You <strong>must backup your passphrase and seedphrase</strong>.</p>
+<p>Click <code>N</code> when asked whether you want to mine in the background, then type <code>exit</code>.</p>
+<p>Now xmrsale will run the <code>monero-wallet-rpc</code> and sync with a public node (<code>node.moneroworld.com</code>). Once you see <code>Refresh done, blocks received...</code> you are ready to run xmrsale! If you want, you can adjust the <code>config.py</code> to your liking. You can always sync with <code>python3 xmrsale.py --sync</code>.</p>
+<h3 id="start-xmrsale">Start xmrSale</h3>
+<p>Run xmrSale with</p>
+<pre><code>gunicorn xmrsale:app --timeout 120
 </code></pre>
-<p>However it is probably easiest to run this as a service like you may have done for your monerod daemon. We  will just create a similar <code>.service</code>, here is an example <a href="https://github.com/xmrsale/xmrSale/blob/master/docs/monerowallet.service">monerowallet.service</a>. You can set the wallet RPC login as arguments in this file.</p>
-<p>If you are connecting to a remote node, this is easy via SSH tunneling or tor hidden services (see Tor page), you can open these tunnels with</p>
-<pre><code>ssh root@IP -q -N -L 18081:localhost:18081 &amp;
-ssh root@IP -q -N -L 18090:localhost:18090 &amp;
-</code></pre>
-<p>or whatever ports you're using. Make sure your ssh connection is working (without any ssh-key prompts! No passwords!). Further config examples can be found in <a href="docs/">docs/</a>.</p>
-<h3 id="run-xmrsale">Run xmrSale</h3>
-<p>Finally, run xmrSale with</p>
-<pre><code>gunicorn -w 1 -b 0.0.0.0:8000 xmrsale:app
-</code></pre>
-<p>Gunicorn is a lightweight python HTTP server, alternatively you can run with just <code>python xmrsale.py</code> though this is not recommended for production.</p>
-<p>You should now be able to view your xmrSale server at <code>http://YOUR_SERVER_IP:8000/</code>. If running locally, this will be <code>127.0.0.1:8000</code>.</p>
-<p>To serve constantly in the background, run gunicorn with nohup:</p>
-<pre><code>nohup gunicorn -w 1 0.0.0.0:8000 xmrsale:app &gt; log.txt 2&gt;&amp;1 &amp;
+<p>That's it! If running locally, this will be <code>127.0.0.1:8000</code>. If you allow traffic on that port you should now also be able to view your xmrSale at <code>http://YOUR_IP:8000/</code>. If you're running on a VPS you may need to <code>ufw allow 8000</code> or make an <a href="https://github.com/xmrsale/xmrSale/blob/master/docs/HTTPS.md">nginx config</a>.</p>
+<p>You will want to run gunicorn with nohup so it continues serving in the background:</p>
+<pre><code>nohup gunicorn xmrsale:app &gt; log.txt 2&gt;&amp;1 &amp;
 tail -f log.txt
 </code></pre>
-<p>You can then kill xmrsale with <code>pkill gunicorn</code>.</p>
-<p>If running on a machine at home, you may want to <a href="https://user-images.githubusercontent.com/24557779/105681219-f0f5fd80-5f44-11eb-942d-b574367a161f.png">forward port 8000 in your router settings</a> so that xmrSale is also visible to the public on your external IP address. You may also need to allow gunicorn through your firewall with <code>sudo ufw allow 8000</code>.</p>
-<h2 id="install-with-docker">Install (with Docker)</h2>
-<p>A beta docker image is only semi working and has <strong>not yet been security vetted</strong> and is not ready for production use, it is packaged with a Monero node for an easy installation:
-For testing:</p>
-<pre><code>git clone https://github.com/xmrsale/xmrSale
-cd xmrSale/
-</code></pre>
-<p>Edit <code>docker-compose.yml</code> with links to your Monero wallet file and blockchain directory (if applicable). Then</p>
-<pre><code>docker-compose up --build
-</code></pre>
-<p>it will have to sync with the Monero blockchain which may take some time.</p>
-<h2 id="embed-a-donation-button">Embed a Donation Button</h2>
+<h3 id="embed-a-donation-button">Embed a Donation Button</h3>
 <p>Now we have xmrSale running, let's embed the donation button into a website HTML:</p>
 <pre><code class="language-html">&lt;iframe src=&quot;http://YOUR_SERVER_IP:8000/&quot; style=&quot;margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
 </code></pre>
