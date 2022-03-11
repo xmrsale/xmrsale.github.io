@@ -261,13 +261,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#embed-a-donation-button" class="md-nav__link">
-    Embed a Donation Button
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -366,13 +359,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#embed-a-donation-button" class="md-nav__link">
-    Embed a Donation Button
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -416,11 +402,28 @@ You <strong>must backup your passphrase and seedphrase</strong>.</p>
 <pre><code>nohup gunicorn xmrsale:app &gt; log.txt 2&gt;&amp;1 &amp;
 tail -f log.txt
 </code></pre>
-<h3 id="embed-a-donation-button">Embed a Donation Button</h3>
+<h1 id="embed-a-donation-button">Embed a Donation Button</h1>
 <p>Now we have xmrSale running, let's embed the donation button into a website HTML:</p>
 <pre><code class="language-html">&lt;iframe src=&quot;http://YOUR_SERVER_IP:8000/&quot; style=&quot;margin: 0 auto;display:block;width:420px;height:460px;border:none;overflow:hidden;&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
 </code></pre>
 <p>Change <code>YOUR_SERVER_IP</code> to the IP address of the machine you're running xmrSale on, node or otherwise. Additionally, you could redirect a domain to that IP and use that instead.</p>
+<h1 id="debugging">Debugging</h1>
+<ul>
+<li>Make sure you are synced <code>python3 xmrsale.py --sync</code></li>
+<li>Check <code>rpc.log</code> for node connection errors.</li>
+<li>Processes already running / wallet in use -&gt; Kill any monero-rpc running in the background and restart. <code>ps ax | grep monero</code>, <code>ps ax | grep gunicorn</code> then <code>kill</code>.</li>
+<li>You can clean environment with <code>python3 xmrsale.py --clean</code></li>
+</ul>
+<h1 id="additional-usage">Additional Usage</h1>
+<pre><code>xmrsale - Self Hosted Monero Payment Gateway [-h] [-s] [-c] [-t] [--sync]
+
+optional arguments:
+  -h, --help        show this help message and exit
+  -s, --setup       Initialise xmrsale for the first time
+  -c, --clean       Clean up xmrsale directory
+  -t, --test-start  Test run xmrsale
+  --sync            Run wallet-rpc alone in foreground to sync wallet
+</code></pre>
                 
               
               
